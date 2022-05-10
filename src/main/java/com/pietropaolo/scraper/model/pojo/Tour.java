@@ -2,7 +2,9 @@ package com.pietropaolo.scraper.model.pojo;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,7 +32,7 @@ public class Tour {
 	private String artista;
 	private String titolo;
 	
-	@OneToMany(mappedBy = "tour")
+	@OneToMany(mappedBy = "tour", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
 	private List<Concerto> date;
 	
 	@JsonProperty("artista")

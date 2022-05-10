@@ -1,6 +1,6 @@
 package com.pietropaolo.scraper.model.pojo;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +18,7 @@ public class Concerto {
 		
 	}
 	
-	public Concerto(String citta, String luogo, LocalDate data) {
+	public Concerto(String citta, String luogo, LocalDateTime data) {
 		super();
 		this.citta = citta;
 		this.luogo = luogo;
@@ -30,7 +30,8 @@ public class Concerto {
 	
 	private String citta;
 	private String luogo;
-	private LocalDate data;
+	private LocalDateTime data;
+	private boolean disponibile;
 	
 	@ManyToOne
 	private Tour tour;
@@ -43,11 +44,11 @@ public class Concerto {
 		this.citta = citta;
 	}
 	@JsonProperty("data")
-	public LocalDate getData() {
+	public LocalDateTime getData() {
 		return data;
 	}
-	public void setData(LocalDate data) {
-		this.data = data;
+	public void setData(LocalDateTime localDateTime) {
+		this.data = localDateTime;
 	}
 	
 	@JsonProperty("luogo")
@@ -65,6 +66,15 @@ public class Concerto {
 
 	public void setTour(Tour tour) {
 		this.tour = tour;
+	}
+
+	@JsonProperty("Disponibilita'")
+	public boolean isDisponibile() {
+		return disponibile;
+	}
+
+	public void setDisponibile(boolean disponibile) {
+		this.disponibile = disponibile;
 	}
 
 }

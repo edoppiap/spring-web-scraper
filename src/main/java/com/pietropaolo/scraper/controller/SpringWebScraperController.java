@@ -1,28 +1,45 @@
 package com.pietropaolo.scraper.controller;
 
-import java.time.LocalDate;
-import java.util.Arrays;
+import java.io.IOException;
+import java.util.stream.Stream;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pietropaolo.scraper.model.pojo.Concerto;
 import com.pietropaolo.scraper.model.pojo.Tour;
+import com.pietropaolo.scraper.repository.TourRepository;
+import com.pietropaolo.scraper.service.FillerDatabase;
+import com.pietropaolo.scraper.service.TourReader;
 
 @RestController
 public class SpringWebScraperController {
 	
-	@GetMapping("/hello")
-	public ResponseEntity<Tour> getString(){
-		Tour t = new Tour("Vasco Rossi", "VASCO");
-		Concerto c1 = new Concerto("Roma", "Palalottomatica", LocalDate.of(2022, 9, 15));
-		Concerto c2 = new Concerto("Roma", "Ostia Antica", LocalDate.of(2022, 9, 18));
-		c1.setTour(t);
-		c2.setTour(t);
-		t.setDate(Arrays.asList(c1, c2));
-		return new ResponseEntity<>(t, HttpStatus.OK);
+	@Autowired
+	private TourReader tourReader;
+	
+	@Autowired
+	private TourRepository tourRepository;
+	
+	@Autowired
+	private FillerDatabase filler;
+	
+	@GetMapping("/getAll")
+	public ResponseEntity<Stream<Tour>> getConcerti(){
+		return new ResponseEntity<>(tourRepository.findAll().parallelStream(), HttpStatus.OK);
+	}
+	
+	@GetMapping("/fill")
+	public ResponseEntity<String> fillDataBase() throws IOException{
+		String result = "";
+		if(filler.fill(tourReader.readTourFromSite())) {
+			result = "Everything saved";
+		}else {
+			result = "Something gone wrong";
+		}
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
 }
