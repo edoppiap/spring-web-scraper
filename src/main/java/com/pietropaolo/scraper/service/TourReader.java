@@ -7,7 +7,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,7 +19,7 @@ import com.pietropaolo.scraper.model.pojo.Tour;
 @Service
 public class TourReader {
 	
-	public Stream<Tour> readTourFromSite(){
+	public List<Tour> readTourFromSite(){
 		String basicUrl = "https://www.ticketone.it";
 		List<Tour> tours = new ArrayList<>();
 		
@@ -56,7 +55,7 @@ public class TourReader {
 		}
 		
 		
-		return tours.parallelStream();
+		return tours;
 	}
 
 }

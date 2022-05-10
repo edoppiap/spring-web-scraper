@@ -1,7 +1,7 @@
 package com.pietropaolo.scraper.controller;
 
 import java.io.IOException;
-import java.util.stream.Stream;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,8 +27,8 @@ public class SpringWebScraperController {
 	private FillerDatabase filler;
 	
 	@GetMapping("/getAll")
-	public ResponseEntity<Stream<Tour>> getConcerti(){
-		return new ResponseEntity<>(tourRepository.findAll().parallelStream(), HttpStatus.OK);
+	public ResponseEntity<List<Tour>> getConcerti(){
+		return new ResponseEntity<>(tourRepository.findAll(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/fill")
